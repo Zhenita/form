@@ -528,7 +528,9 @@ async function analyze(){
   const ic=ents.map(([,b])=>({type:'image',source:{type:'base64',media_type:b.includes('image/png')?'image/png':b.includes('image/webp')?'image/webp':'image/jpeg',data:b.split(',')[1]}}));
   const angles=ents.map(([a])=>am[a]);
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
+    const workerUrl=gwu();
+    if(!workerUrl){ares.innerHTML=`<span style="color:var(--red)">${zh?'请先在设置里填写 Worker URL':'Please set Worker URL in Settings first'}</span>`;document.getElementById('abtn').disabled=false;return;}
+    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
     const data=await res.json();
     const text=data.content?.find(c=>c.type==='text')?.text||'Failed.';
     const sm={};const re=/【([^:：]+)[:：](\d)\/5】/g;let m;while((m=re.exec(text))!==null)sm[m[1].trim()]=parseInt(m[2]);
