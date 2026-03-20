@@ -120,6 +120,9 @@ textarea{resize:vertical;min-height:58px}
 @keyframes pu{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 /* ─ HISTORY ─ */
 .ent{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px;animation:fadeUp .3s ease forwards}
+.ent-body{display:none}.ent-body.open{display:block}
+.ent-toggle{font-size:12px;color:var(--blue);cursor:pointer;padding:0 13px 11px;display:flex;align-items:center;gap:5px;user-select:none}
+.ent-toggle:hover{opacity:.75}
 .eh{padding:11px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .eps{display:flex;gap:6px;padding:10px 13px;overflow-x:auto}
 .ep{width:70px;height:93px;border-radius:3px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;cursor:pointer;position:relative;background:var(--s2)}
@@ -225,6 +228,9 @@ const CFG = {
 **🧘 日常习惯调整**
 2-3条办公桌、睡姿、行走的具体建议。
 
+**🚫 正在加重问题的坏习惯**
+根据本次体态评估，指出2-3个最可能加重问题的日常行为（如久坐翘二郎腿加重骨盆前倾、低头看手机加重驼背等），说明原因和如何改变。
+
 **⚠️ 需要注意的信号**
 如出现哪些症状（如放射痛、麻木）应优先就医（骨科或物理治疗师）。
 
@@ -267,6 +273,9 @@ For the 2 most significant findings, provide 2-3 specific exercises each:
 
 **🧘 Daily Habit Adjustments**
 2-3 specific recommendations for standing, sitting, sleeping posture or footwear (heel lifts, orthotics if relevant).
+
+**🚫 Habits Making It Worse**
+Based on the assessment, identify 2-3 daily habits likely aggravating the conditions (e.g. crossing legs worsening pelvic obliquity, phone posture worsening shoulder asymmetry). Explain why and how to change them.
 
 **⚠️ Red Flag Symptoms**
 List symptoms (e.g. radiating pain, numbness, balance issues) that warrant prompt evaluation by an orthopaedic surgeon or physio.
@@ -634,18 +643,22 @@ async function rHI(){
       <div><div class="cl">✨ ${zh?'最新':'Latest'} · ${fd(l.date,zh)} · ${l.week}</div><div class="cph">${rp(l)}</div></div>
     </div><div class="div"></div>`;
   }
-  html+=`<div class="slbl">${zh?'体态记录':'Posture records'}</div><div id="pl"></div><div class="div"></div><div class="slbl">${zh?'打卡历史':'Check-in history'}</div><div id="cl"></div>`;
+  html+=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+  <div class="slbl" style="margin-bottom:0">${zh?'体态记录':'Posture records'}</div>
+  <div style="display:flex;gap:7px">
+    <button onclick="exportData()" style="padding:5px 12px;font-size:12px;border:1px solid var(--border);background:none;color:var(--muted);border-radius:3px;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">⬇ CSV</button>
+    <button onclick="exportToNotion()" style="padding:5px 12px;font-size:12px;border:1px solid rgba(99,102,241,0.4);background:none;color:#6366f1;border-radius:3px;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='none'">◈ Notion</button>
+  </div>
+</div><div id="pl"></div><div class="div"></div><div class="slbl">${zh?'打卡历史':'Check-in history'}</div><div id="cl"></div>`;
   el.innerHTML=html;
   const pl=document.getElementById('pl');
   if(!posts.length){pl.innerHTML=`<div class="empty"><div class="ei">📸</div><p>${zh?'还没有体态记录':'No posture records yet'}</p></div>`;}
   else pl.innerHTML=posts.map((r,i)=>{
     const ph=r.photos?Object.entries(r.photos).map(([a,b])=>`<div class="ep" onclick="openLB('${b}')"><img src="${b}"><div class="eplbl">${a==='front'?(zh?'正面':'Front'):a==='side'?(zh?'侧面':'Side'):(zh?'背面':'Back')}</div></div>`).join(''):'';
     const sc=r.aiScores?Object.entries(r.aiScores).map(([k,v])=>`<span class="aisc" style="border-color:${u.ic[k]||'var(--muted)'};color:${u.ic[k]||'var(--muted)'}">${k} ${v}/5</span>`).join(''):'';
-    const ai=r.aiText&&r.aiText!=='Analysis failed.'?r.aiText.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):'';
-    const hasPhotos=r.photos&&Object.keys(r.photos).length>0;
-    const failedAI=!r.aiText||r.aiText==='Analysis failed.';
-    return `<div class="ent"><div class="eh"><div><div style="16px;font-weight:500">${fd(r.date,zh)}</div><div style="13px;color:var(--muted)">${r.week}</div></div><div style="display:flex;gap:6px">${hasPhotos?`<button class="bsm" style="color:var(--blue);border-color:var(--blue)" onclick="reAnalyse(${i})">🤖 ${zh?'重新分析':'Re-analyse'}</button>`:''}<button class="bsm" onclick="delPost(${i})">×</button></div></div>${ph?`<div class="eps">${ph}</div>`:''}${sc?`<div class="esc">${sc}</div>`:''}${ai?`<div class="eai">${ai}</div>`:failedAI&&hasPhotos?`<div style="padding:0 13px 11px;font-size:13px;color:var(--red)">Analysis failed — tap Re-analyse to retry</div>`:''}${r.note?`<div style="padding:0 13px 11px;font-size:14px;color:var(--muted);font-style:italic">${r.note}</div>`:''}<div id="reai-${i}"></div></div>`;
-  }).join('');
+    const ai=r.aiText?r.aiText.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):'';
+    const bid='ent-'+i;
+    return `<div class="ent"><div class="eh" style="cursor:pointer" onclick="toggleEnt('${bid}')"><div><div style="font-size:14px;font-weight:600">${fd(r.date,zh)} · ${r.week}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${sc||''}</div></div><div style="display:flex;align-items:center;gap:8px"><button class="bsm" onclick="event.stopPropagation();delPost(${i})">×</button><span style="font-size:18px;color:var(--muted)" id="arr-${bid}">▸</span></div></div><div class="ent-body" id="${bid}">${ph?`<div class="eps">${ph}</div>`:''}${ai?`<div class="eai">${ai}</div>`:''} ${r.note?`<div style="padding:0 13px 13px;font-size:12px;color:var(--muted);font-style:italic">${r.note}</div>`:''}</div></div>`;
   const cll=document.getElementById('cl');
   if(!cis.length){cll.innerHTML=`<div class="empty"><div class="ei">📅</div><p>${zh?'还没有打卡记录':'No check-ins yet'}</p></div>`;}
   else cll.innerHTML=cis.map(c=>{const p=Math.round(c.done.length/c.total*100);return `<div class="ent" style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between"><div><div style="16px;font-weight:500">${fd(c.date,zh)}</div><div style="13px;color:var(--muted);margin-top:2px">${zh?`完成 ${c.done.length}/${c.total}`:`${c.done.length}/${c.total} items`}</div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:35px;color:${p===100?'var(--green)':'var(--gold)'}">${p}%</div></div>`;}).join('');
@@ -809,6 +822,64 @@ function clearAll(){if(!confirm(CU==='zoe'?'确定清空？':'Clear all local da
 // ══════════════════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════════════════
+function toggleEnt(id) {
+  const body=document.getElementById(id);
+  const arr=document.getElementById('arr-'+id);
+  if(!body)return;
+  const open=body.classList.toggle('open');
+  if(arr) arr.textContent=open?'▾':'▸';
+}
+
+function exportData() {
+  const zh=CU==='zoe';
+  const posts=loadL('posture');
+  const cis=loadL('checkins');
+  const rows=[['Date','Phase','AI Analysis','Scores','Notes']];
+  posts.forEach(r=>{
+    const scores=r.aiScores?Object.entries(r.aiScores).map(([k,v])=>k+':'+v+'/5').join(' | '):'';
+    const text=r.aiText?r.aiText.replace(/【[^】]+】/g,'').replace(/<[^>]+>/g,'').trim():'';
+    rows.push([r.date, r.week||'', text.replace(/\n/g,' ').replace(/,/g,'，'), scores, r.note||'']);
+  });
+  rows.push([]);
+  rows.push(['--- Check-in History ---']);
+  rows.push(['Date','Done','Total','Percent']);
+  cis.sort((a,b)=>b.date.localeCompare(a.date)).forEach(c=>{
+    rows.push([c.date, c.done.length, c.total, Math.round(c.done.length/c.total*100)+'%']);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`FORM_${CU}_${TODAY}.csv`;
+  a.click();
+  toast(zh?'✅ 已导出 CSV':'✅ Exported CSV');
+}
+
+async function exportToNotion() {
+  const zh=CU==='zoe';
+  const workerUrl=gwu();
+  if(!workerUrl){toast(zh?'请先配置 Worker URL':'Please configure Worker URL first');return;}
+  const posts=loadL('posture');
+  if(!posts.length){toast(zh?'没有记录可导出':'No records to export');return;}
+  toast(zh?'正在导出到 Notion…':'Exporting to Notion…', 5000);
+  try {
+    const res = await fetch(`${workerUrl}/notion/export`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},
+      body: JSON.stringify({ user: CU, posts, lang: zh?'zh':'en' })
+    });
+    const data = await res.json();
+    if(data.ok){
+      toast(zh?`✅ 已导出 ${data.count} 条到 Notion`:`✅ ${data.count} records exported to Notion`);
+      if(data.url) window.open(data.url,'_blank');
+    } else {
+      toast(zh?`❌ 导出失败: ${data.error}`:`❌ Failed: ${data.error}`);
+    }
+  } catch(e){
+    toast(zh?`❌ 导出失败: ${e.message}`:`❌ Failed: ${e.message}`);
+  }
+}
+
 function fd(ds,zh){const d=new Date(ds+'T00:00:00');return zh?`${d.getMonth()+1}月${d.getDate()}日`:d.toLocaleDateString('en',{month:'short',day:'numeric'});}
 function toast(msg,dur=2600){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),dur);}
 function openLB(src){document.getElementById('lbi').src=src;document.getElementById('lb').classList.add('on');}
