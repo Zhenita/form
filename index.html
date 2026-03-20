@@ -207,40 +207,48 @@ const CFG = {
       {id:'sh', name:'🔵 肩膀+驼背',dur:'外旋 / YTW / 靠墙天使 · 12 min'},
       {id:'br', name:'🟢 肋骨+呼吸',dur:'横膈膜呼吸 / 鸟狗式 · 10 min'},
     ],
-    ai(a){return `你是运动康复 + 骨科体态评估专家（Mayo Clinic / APTA标准）。
-照片角度：${a.join('、')} | 矫正目标：骨盆前倾 · 肩膀内扣 · 驼背 · 肋骨外翻
+    ai(a){return `[SYSTEM: You are a posture rehabilitation expert. Output ONLY the 7 sections below, starting immediately with 📊. Any introductory text = task failure.]
 
-❗规则：第一个字必须是📊，不写任何开场白、介绍或免责声明。严格按下方格式输出全部七个板块。
+分析照片角度：${a.join('、')}
+矫正目标：骨盆前倾 · 肩膀内扣 · 驼背 · 肋骨外翻
 
 📊 体态评估
-[描述骨盆、肩膀、背部、肋骨的可见特征，说明代偿链条（如骨盆前倾→腰椎过伸→腘绳肌紧张）]
-严重程度：【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】
+从正面、侧面、背面逐一描述骨盆位置（前后倾角度）、肩膀对称性（内扣程度）、胸椎弯曲度（驼背程度）、肋骨形态（外翻可见度）的可见特征。说明代偿链条（例：骨盆前倾→腰椎过伸→臀肌抑制→腘绳肌代偿紧张）。
+严重程度评分（1轻微～5严重）：【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】
 
 🎯 优先重点
-[最需要先处理的1-2个问题及原因，2-3句]
+基于评分，列出最需要优先处理的1-2个问题，说明为什么先处理它能带动其他问题改善（3-4句话）。
 
 🏋️ 训练建议
-骨盆矫正：
-• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
-• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
-肩膀/背部：
-• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
-• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
+针对评分最高的2个问题，各提供3个具体动作：
+问题一：[问题名称]
+• 动作1：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
+• 动作2：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
+• 动作3：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
+问题二：[问题名称]
+• 动作1：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
+• 动作2：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
+• 动作3：[中英文名称] / 目标肌群：[肌群] / 3组×[次数或时长] / 关键提示：[做法要点] / 常见错误：[错误]
 
-🧘 日常习惯
-• 坐姿：[具体建议]
-• 睡姿：[具体建议]
-• 站立/行走：[具体建议]
+🧘 日常习惯调整
+• 坐姿：[具体描述正确坐姿，包括座椅高度、腰部支撑、屏幕距离]
+• 睡姿：[具体描述推荐睡姿及枕头使用方式]
+• 站立/行走：[具体描述重心分布、步态要点]
+• 工作间隙：[每隔多久做什么动作来对抗久坐影响]
 
-🚫 正在加重的坏习惯
-• [坏习惯1]：[为什么会加重哪个问题]
-• [坏习惯2]：[为什么会加重哪个问题]
+🚫 正在加重问题的坏习惯
+• 坏习惯1：[具体行为描述] → 加重[哪个问题]的原因：[机制解释]
+• 坏习惯2：[具体行为描述] → 加重[哪个问题]的原因：[机制解释]
+• 坏习惯3：[具体行为描述] → 加重[哪个问题]的原因：[机制解释]
 
 ⚠️ 就医信号
-出现以下情况请就诊骨科或物理治疗师：[列出2-3条具体症状]
+出现以下情况请及时就诊骨科或物理治疗师（不要拖延）：
+• [症状1：具体描述，包括部位和性质]
+• [症状2：具体描述]
+• [症状3：具体描述]
 
 💪 鼓励语
-[针对本次照片的具体正向反馈，不超过25字]`},
+[结合本次照片中观察到的具体积极因素，给出有针对性的鼓励，20-30字]`},
   },
   jason:{
     lang:'en', name:'Jason', emoji:'🧘‍♂️',
@@ -254,39 +262,46 @@ const CFG = {
       {id:'sp', name:'🔴 Spinal stretch',       dur:'Side stretch / McKenzie extension · 10 min'},
       {id:'ga', name:'🟡 Gait training',        dur:'Single-leg balance / lunge walk · 5 min'},
     ],
-    ai(a){return `You are a musculoskeletal rehabilitation specialist (Mayo Clinic / APTA standards).
-Photos: ${a.join(', ')} | Conditions: Leg length diff · Uneven shoulders · Spinal curvature · Gait asymmetry
+    ai(a){return `[SYSTEM: You are a musculoskeletal rehabilitation specialist (Mayo Clinic / APTA standards). Output ONLY the 7 sections below, starting immediately with 📊. Any introductory text = task failure.]
 
-❗Rule: First character must be 📊. No intro, no preamble, no disclaimers. Output all seven sections in order.
+Photo angles: ${a.join(', ')}
+Conditions to assess: Leg length discrepancy / pelvic obliquity · Uneven shoulders · Spinal curvature · Gait asymmetry
 
 📊 Postural Assessment
-[Findings for pelvis, shoulders, spine, gait symmetry. Compensation chains e.g. pelvic obliquity → lumbar shift → hip drop in gait]
-Severity: 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
+Describe findings from each angle: pelvic height symmetry (which side is higher, estimated tilt), shoulder height asymmetry (which is lower, degree), spinal lateral curve (direction, curve type), gait loading asymmetry (weight distribution). Identify compensation chains (e.g. right pelvic drop → lumbar lateral shift left → compensatory thoracic curve right → left shoulder elevation).
+Severity (1=mild, 5=severe): 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
 
 🎯 Priority Focus
-[1-2 most critical issues and why, 2-3 sentences]
+Based on scores, identify the 1-2 most critical issues to address first. Explain why resolving the primary issue will cascade to improve others (3-4 sentences).
 
 🏋️ Exercise Recommendations
-Pelvic/Leg length:
-• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
-• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
-Shoulder symmetry:
-• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
-• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
+For the 2 highest-scoring conditions, provide 3 exercises each:
+Condition 1: [condition name]
+• Exercise 1: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
+• Exercise 2: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
+• Exercise 3: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
+Condition 2: [condition name]
+• Exercise 1: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
+• Exercise 2: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
+• Exercise 3: [name] / Target: [muscles] / 3×[reps or duration] / Cue: [technique key point] / Avoid: [common error]
 
 🧘 Daily Habit Adjustments
-• Sitting: [specific tip]
-• Sleeping: [specific tip]
-• Walking/footwear: [specific tip, incl. heel lift if relevant]
+• Sitting: [specific posture guidance including chair height, lumbar support, monitor position]
+• Sleeping: [recommended sleep position, pillow placement]
+• Walking/footwear: [gait cues, heel lift recommendation if relevant for leg length diff]
+• Movement breaks: [frequency and micro-exercises to counteract prolonged sitting]
 
 🚫 Habits Making It Worse
-• [Habit 1]: [why it worsens which condition]
-• [Habit 2]: [why it worsens which condition]
+• Habit 1: [specific behaviour] → worsens [condition] because: [biomechanical explanation]
+• Habit 2: [specific behaviour] → worsens [condition] because: [biomechanical explanation]
+• Habit 3: [specific behaviour] → worsens [condition] because: [biomechanical explanation]
 
-⚠️ Red Flags — See ortho/physio if:
-[2-3 specific symptoms that warrant in-person evaluation]
+⚠️ Red Flags — See ortho/physio promptly if:
+• [Symptom 1: specific description including location and nature]
+• [Symptom 2: specific description]
+• [Symptom 3: specific description]
 
-💪 [One specific encouraging sentence about a positive finding in these photos, max 15 words]`},
+💪 [Specific encouraging observation about a positive finding in these photos, 15-20 words max]`},
   }
 };
 
