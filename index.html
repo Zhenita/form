@@ -498,14 +498,23 @@ function hF(e,a){
   const f=e.target.files[0];if(!f)return;
   const zh=CU==='zoe';
   const lb=zh?{front:'正面',side:'侧面',back:'背面'}:{front:'Front',side:'Side',back:'Back'};
-  const r=new FileReader();
-  r.onload=ev=>{
-    PH[a]=ev.target.result;
+  // Compress image before storing — keeps it under Cloudflare's 100KB request limit
+  const img=new Image();
+  const url=URL.createObjectURL(f);
+  img.onload=()=>{
+    const MAX=900;
+    let w=img.width,h=img.height;
+    if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    const b64=c.toDataURL('image/jpeg',0.75);
+    PH[a]=b64;
+    URL.revokeObjectURL(url);
     const s=document.getElementById('ps-'+a);
-    s.innerHTML=`<img src="${ev.target.result}"><div class="eplbl">${lb[a]}</div><button class="prm" onclick="rmP(event,'${a}')">×</button>`;
+    s.innerHTML=`<img src="${b64}"><div class="eplbl">${lb[a]}</div><button class="prm" onclick="rmP(event,'${a}')">×</button>`;
     chkA();
   };
-  r.readAsDataURL(f);e.target.value='';
+  img.src=url;e.target.value='';
 }
 function rmP(e,a){
   e.stopPropagation();PH[a]=null;
