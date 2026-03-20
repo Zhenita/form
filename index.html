@@ -109,7 +109,7 @@ textarea{resize:vertical;min-height:58px}
 .pslot:hover .prm{display:flex}
 .eplbl{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);font-size:12px;color:white;text-align:center;padding:2px}
 /* ─ AI ─ */
-.aip{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--r);padding:13px;margin-top:11px}
+.aip{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--r);padding:16px;margin-top:11px}
 .all{12px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:7px}
 .ab{16px;line-height:1.85;color:var(--muted)}.ab strong{color:var(--text);font-weight:600}
 .asc{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
@@ -124,7 +124,7 @@ textarea{resize:vertical;min-height:58px}
 .eps{display:flex;gap:6px;padding:10px 13px;overflow-x:auto}
 .ep{width:70px;height:93px;border-radius:3px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;cursor:pointer;position:relative;background:var(--s2)}
 .ep img{width:100%;height:100%;object-fit:cover}
-.eai{padding:0 13px 11px;font-size:15px;line-height:1.75;color:var(--muted)}.eai strong{color:var(--text);font-weight:600}
+.eai{padding:0 13px 14px;font-size:15px;line-height:1.85;color:var(--muted);word-break:break-word}.eai strong{color:var(--text);font-weight:600}
 .esc{display:flex;gap:5px;flex-wrap:wrap;padding:0 13px 10px}
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
 .cl{14px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;font-weight:600}
@@ -202,9 +202,36 @@ const CFG = {
       {id:'sh', name:'🔵 肩膀+驼背',dur:'外旋 / YTW / 靠墙天使 · 12 min'},
       {id:'br', name:'🟢 肋骨+呼吸',dur:'横膈膜呼吸 / 鸟狗式 · 10 min'},
     ],
-    ai(a){return `你是专业体态矫正分析师。分析这${a.length}张体态照片（${a.join('、')}）。
-用户在矫正：1.骨盆前倾 2.肩膀内扣 3.驼背 4.肋骨外翻
-分析：①各问题体态特征 ②严重程度【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】③最优先重点 ④一句鼓励。简洁中文。`},
+    ai(a){return `你是一位结合运动康复科、骨科与物理治疗（参考Mayo Clinic、APTA标准）的体态评估专家。分析这${a.length}张体态照片（${a.join('、')}）。
+
+用户正在矫正：1.骨盆前倾 2.肩膀内扣 3.驼背 4.肋骨外翻
+
+请按以下结构输出：
+
+**📊 体态评估**
+逐一描述每个问题的可见特征，说明代偿模式（如骨盆前倾→腰椎过伸→腘绳肌紧张链条）。
+严重程度：【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】
+
+**🎯 本阶段优先重点**
+列出1-2个最需要优先处理的问题，说明原因。
+
+**🏋️ 针对性训练建议**
+针对最严重的2个问题，各提供2-3个具体动作：
+- 动作名称（中英文）
+- 目标肌群／关节
+- 做法要点（组数×次数或时间）
+- 常见错误提示
+
+**🧘 日常习惯调整**
+2-3条办公桌、睡姿、行走的具体建议。
+
+**⚠️ 需要注意的信号**
+如出现哪些症状（如放射痛、麻木）应优先就医（骨科或物理治疗师）。
+
+**💪 鼓励语**
+一句有力的鼓励，结合本次照片的进步或潜力。
+
+使用中文，专业但易懂，避免过度医疗化语言。`},
   },
   jason:{
     lang:'en', name:'Jason', emoji:'🧘‍♂️',
@@ -218,9 +245,36 @@ const CFG = {
       {id:'sp', name:'🔴 Spinal stretch',       dur:'Side stretch / McKenzie extension · 10 min'},
       {id:'ga', name:'🟡 Gait training',        dur:'Single-leg balance / lunge walk · 5 min'},
     ],
-    ai(a){return `You are a professional posture analyst. Analyse these ${a.length} posture photos (${a.join(', ')}).
-Issues: 1.Leg length/pelvic tilt 2.Uneven shoulders 3.Spinal curvature 4.Gait asymmetry.
-Assess: ①Shoulder/pelvis/waist symmetry ②Spinal curve ③Tilt direction ④Scores【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】⑤Top priority ⑥Encouragement. Concise English.`},
+    ai(a){return `You are a musculoskeletal rehabilitation specialist combining sports medicine, orthopaedics and physical therapy expertise (Mayo Clinic / APTA standards). Analyse these ${a.length} posture photos (${a.join(', ')}).
+
+User's conditions: 1. Leg length discrepancy / pelvic obliquity 2. Uneven shoulders 3. Suspected spinal curvature 4. Gait asymmetry
+
+Structure your response as follows:
+
+**📊 Postural Assessment**
+Describe visible findings for each issue. Note compensation chains (e.g. pelvic tilt → lumbar shift → hip drop during gait).
+Severity scores: 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
+
+**🎯 Priority Focus**
+Identify the 1-2 most critical issues to address first and explain why.
+
+**🏋️ Targeted Exercise Recommendations**
+For the 2 most significant findings, provide 2-3 specific exercises each:
+- Exercise name
+- Target muscles / joints
+- Instructions (sets × reps or duration)
+- Key cues and common errors to avoid
+
+**🧘 Daily Habit Adjustments**
+2-3 specific recommendations for standing, sitting, sleeping posture or footwear (heel lifts, orthotics if relevant).
+
+**⚠️ Red Flag Symptoms**
+List symptoms (e.g. radiating pain, numbness, balance issues) that warrant prompt evaluation by an orthopaedic surgeon or physio.
+
+**💪 Encouragement**
+One motivating sentence referencing something positive visible in these photos.
+
+Write in clear, professional English. Evidence-based, practical, not overly clinical.`},
   }
 };
 
@@ -540,7 +594,7 @@ async function analyze(){
   try{
     const workerUrl=gwu();
     if(!workerUrl){ares.innerHTML=`<span style="color:var(--red)">${zh?'请先在设置里填写 Worker URL':'Please set Worker URL in Settings first'}</span>`;document.getElementById('abtn').disabled=false;return;}
-    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
+    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
     const data=await res.json();
     if(!res.ok){throw new Error(`Worker error ${res.status}: ${JSON.stringify(data)}`);}
     const text=data.content?.find(c=>c.type==='text')?.text;
@@ -612,7 +666,7 @@ async function reAnalyse(i){
   const ic=ents.map(([,b])=>({type:'image',source:{type:'base64',media_type:b.includes('image/png')?'image/png':b.includes('image/webp')?'image/webp':'image/jpeg',data:b.split(',')[1]}}));
   const angles=ents.map(([a])=>am[a]||a);
   try{
-    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'gemini',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
+    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'gemini',max_tokens:1500,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
     const data=await res.json();
     const text=data.content?.find(c=>c.type==='text')?.text||'Analysis failed.';
     const sm={};const re=/【([^:：]+)[:：](\d)\/5】/g;let m;while((m=re.exec(text))!==null)sm[m[1].trim()]=parseInt(m[2]);
