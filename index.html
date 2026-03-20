@@ -207,39 +207,42 @@ const CFG = {
       {id:'sh', name:'🔵 肩膀+驼背',dur:'外旋 / YTW / 靠墙天使 · 12 min'},
       {id:'br', name:'🟢 肋骨+呼吸',dur:'横膈膜呼吸 / 鸟狗式 · 10 min'},
     ],
-    ai(a){return `你是一位结合运动康复科、骨科与物理治疗（参考Mayo Clinic、APTA标准）的体态评估专家。分析这${a.length}张体态照片（${a.join('、')}）。
+    ai(a){return `体态分析指令 — 直接输出，不写任何开场白或免责声明。
 
-用户正在矫正：1.骨盆前倾 2.肩膀内扣 3.驼背 4.肋骨外翻
+照片角度：${a.join('、')}
+矫正目标：骨盆前倾 · 肩膀内扣 · 驼背 · 肋骨外翻
 
-请按以下结构输出：
+严格按以下格式输出，每个标题单独一行，标题后直接写内容：
 
-**📊 体态评估**
-逐一描述每个问题的可见特征，说明代偿模式（如骨盆前倾→腰椎过伸→腘绳肌紧张链条）。
+📊 体态评估
+[逐一描述骨盆、肩膀、背部、肋骨的可见特征。说明代偿链条。]
 严重程度：【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】
 
-**🎯 本阶段优先重点**
-列出1-2个最需要优先处理的问题，说明原因。
+🎯 优先重点
+[最需要先处理的1-2个问题及原因，2-3句话。]
 
-**🏋️ 针对性训练建议**
-针对最严重的2个问题，各提供2-3个具体动作：
-- 动作名称（中英文）
-- 目标肌群／关节
-- 做法要点（组数×次数或时间）
-- 常见错误提示
+🏋️ 训练建议
+问题1：[问题名]
+- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
+- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
+问题2：[问题名]
+- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
+- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
 
-**🧘 日常习惯调整**
-2-3条办公桌、睡姿、行走的具体建议。
+🧘 日常习惯
+- [坐姿建议]
+- [睡姿建议]
+- [行走/站立建议]
 
-**🚫 正在加重问题的坏习惯**
-根据本次体态评估，指出2-3个最可能加重问题的日常行为（如久坐翘二郎腿加重骨盆前倾、低头看手机加重驼背等），说明原因和如何改变。
+🚫 正在加重的坏习惯
+- [坏习惯1及原因]
+- [坏习惯2及原因]
 
-**⚠️ 需要注意的信号**
-如出现哪些症状（如放射痛、麻木）应优先就医（骨科或物理治疗师）。
+⚠️ 就医信号
+[出现以下症状应就医：列出2-3条具体症状]
 
-**💪 鼓励语**
-一句有力的鼓励，结合本次照片的进步或潜力。
-
-使用中文，专业但易懂，避免过度医疗化语言。`},
+💪 鼓励语
+[一句针对本次照片的具体鼓励，不超过30字。]`},
   },
   jason:{
     lang:'en', name:'Jason', emoji:'🧘‍♂️',
@@ -253,39 +256,37 @@ const CFG = {
       {id:'sp', name:'🔴 Spinal stretch',       dur:'Side stretch / McKenzie extension · 10 min'},
       {id:'ga', name:'🟡 Gait training',        dur:'Single-leg balance / lunge walk · 5 min'},
     ],
-    ai(a){return `You are a musculoskeletal rehabilitation specialist combining sports medicine, orthopaedics and physical therapy expertise (Mayo Clinic / APTA standards). Analyse these ${a.length} posture photos (${a.join(', ')}).
+    ai(a){return `Posture analysis — NO intro sentence, NO preamble. Start directly with the first heading.
 
-User's conditions: 1. Leg length discrepancy / pelvic obliquity 2. Uneven shoulders 3. Suspected spinal curvature 4. Gait asymmetry
+Photos: ${a.join(', ')} | Issues: Leg length diff · Uneven shoulders · Spinal curvature · Gait asymmetry
 
-Structure your response as follows:
+📊 Postural Assessment
+[Findings for pelvis, shoulders, spine, gait symmetry. Compensation chains.]
+Severity: 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
 
-**📊 Postural Assessment**
-Describe visible findings for each issue. Note compensation chains (e.g. pelvic tilt → lumbar shift → hip drop during gait).
-Severity scores: 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
+🎯 Priority Focus
+[1-2 most critical issues + reason, 2-3 sentences.]
 
-**🎯 Priority Focus**
-Identify the 1-2 most critical issues to address first and explain why.
+🏋️ Exercise Recommendations
+Issue 1: [name]
+- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
+- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
+Issue 2: [name]
+- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
+- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
 
-**🏋️ Targeted Exercise Recommendations**
-For the 2 most significant findings, provide 2-3 specific exercises each:
-- Exercise name
-- Target muscles / joints
-- Instructions (sets × reps or duration)
-- Key cues and common errors to avoid
+🧘 Daily Habits
+- Sitting: [specific tip]
+- Sleeping: [specific tip]
+- Walking/footwear: [specific tip incl. heel lift if relevant]
 
-**🧘 Daily Habit Adjustments**
-2-3 specific recommendations for standing, sitting, sleeping posture or footwear (heel lifts, orthotics if relevant).
+🚫 Habits Making It Worse
+- [Habit + why it worsens condition]
+- [Habit + why it worsens condition]
 
-**🚫 Habits Making It Worse**
-Based on the assessment, identify 2-3 daily habits likely aggravating the conditions (e.g. crossing legs worsening pelvic obliquity, phone posture worsening shoulder asymmetry). Explain why and how to change them.
+⚠️ Red Flags — See ortho/physio if: [2-3 specific symptoms]
 
-**⚠️ Red Flag Symptoms**
-List symptoms (e.g. radiating pain, numbness, balance issues) that warrant prompt evaluation by an orthopaedic surgeon or physio.
-
-**💪 Encouragement**
-One motivating sentence referencing something positive visible in these photos.
-
-Write in clear, professional English. Evidence-based, practical, not overly clinical.`},
+💪 [One specific encouraging sentence about positive findings in these photos.]``},
   }
 };
 
