@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>FORM · Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -541,7 +542,9 @@ async function analyze(){
     if(!workerUrl){ares.innerHTML=`<span style="color:var(--red)">${zh?'请先在设置里填写 Worker URL':'Please set Worker URL in Settings first'}</span>`;document.getElementById('abtn').disabled=false;return;}
     const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
     const data=await res.json();
-    const text=data.content?.find(c=>c.type==='text')?.text||'Failed.';
+    if(!res.ok){throw new Error(`Worker error ${res.status}: ${JSON.stringify(data)}`);}
+    const text=data.content?.find(c=>c.type==='text')?.text;
+    if(!text||text==='Analysis failed.'){throw new Error('Gemini returned no result. Check GEMINI_API_KEY in Cloudflare Worker secrets.');}
     const sm={};const re=/【([^:：]+)[:：](\d)\/5】/g;let m;while((m=re.exec(text))!==null)sm[m[1].trim()]=parseInt(m[2]);
     ares.innerHTML=text.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
     document.getElementById('ado').style.display='none';
@@ -552,8 +555,8 @@ async function analyze(){
     document.getElementById('pnt').value='';
     document.getElementById('abtn').disabled=true;
     toast(zh?'✅ 已保存！':'✅ Saved!');
-  }catch{
-    ares.innerHTML=`<span style="color:var(--red)">${zh?'分析出错':'Analysis failed'}</span>`;
+  }catch(err){
+    ares.innerHTML=`<span style="color:var(--red)">${zh?'分析出错':'Analysis failed'}: ${err.message||err}</span>`;
     document.getElementById('ado').style.display='none';
     document.getElementById('abtn').disabled=false;
   }
@@ -584,14 +587,43 @@ async function rHI(){
   else pl.innerHTML=posts.map((r,i)=>{
     const ph=r.photos?Object.entries(r.photos).map(([a,b])=>`<div class="ep" onclick="openLB('${b}')"><img src="${b}"><div class="eplbl">${a==='front'?(zh?'正面':'Front'):a==='side'?(zh?'侧面':'Side'):(zh?'背面':'Back')}</div></div>`).join(''):'';
     const sc=r.aiScores?Object.entries(r.aiScores).map(([k,v])=>`<span class="aisc" style="border-color:${u.ic[k]||'var(--muted)'};color:${u.ic[k]||'var(--muted)'}">${k} ${v}/5</span>`).join(''):'';
-    const ai=r.aiText?r.aiText.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):'';
-    return `<div class="ent"><div class="eh"><div><div style="16px;font-weight:500">${fd(r.date,zh)}</div><div style="13px;color:var(--muted)">${r.week}</div></div><button class="bsm" onclick="delPost(${i})">×</button></div>${ph?`<div class="eps">${ph}</div>`:''}${sc?`<div class="esc">${sc}</div>`:''}${ai?`<div class="eai">${ai}</div>`:''}${r.note?`<div style="padding:0 13px 11px;font-size:14px;color:var(--muted);font-style:italic">${r.note}</div>`:''}</div>`;
+    const ai=r.aiText&&r.aiText!=='Analysis failed.'?r.aiText.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):'';
+    const hasPhotos=r.photos&&Object.keys(r.photos).length>0;
+    const failedAI=!r.aiText||r.aiText==='Analysis failed.';
+    return `<div class="ent"><div class="eh"><div><div style="16px;font-weight:500">${fd(r.date,zh)}</div><div style="13px;color:var(--muted)">${r.week}</div></div><div style="display:flex;gap:6px">${hasPhotos?`<button class="bsm" style="color:var(--blue);border-color:var(--blue)" onclick="reAnalyse(${i})">🤖 ${zh?'重新分析':'Re-analyse'}</button>`:''}<button class="bsm" onclick="delPost(${i})">×</button></div></div>${ph?`<div class="eps">${ph}</div>`:''}${sc?`<div class="esc">${sc}</div>`:''}${ai?`<div class="eai">${ai}</div>`:failedAI&&hasPhotos?`<div style="padding:0 13px 11px;font-size:13px;color:var(--red)">Analysis failed — tap Re-analyse to retry</div>`:''}${r.note?`<div style="padding:0 13px 11px;font-size:14px;color:var(--muted);font-style:italic">${r.note}</div>`:''}<div id="reai-${i}"></div></div>`;
   }).join('');
   const cll=document.getElementById('cl');
   if(!cis.length){cll.innerHTML=`<div class="empty"><div class="ei">📅</div><p>${zh?'还没有打卡记录':'No check-ins yet'}</p></div>`;}
   else cll.innerHTML=cis.map(c=>{const p=Math.round(c.done.length/c.total*100);return `<div class="ent" style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between"><div><div style="16px;font-weight:500">${fd(c.date,zh)}</div><div style="13px;color:var(--muted);margin-top:2px">${zh?`完成 ${c.done.length}/${c.total}`:`${c.done.length}/${c.total} items`}</div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:35px;color:${p===100?'var(--green)':'var(--gold)'}">${p}%</div></div>`;}).join('');
 }
 async function delPost(i){if(!confirm(CU==='zoe'?'确定删除？':'Delete?'))return;const all=loadL('posture');all.splice(i,1);await setData('posture',all);rHI();toast(CU==='zoe'?'已删除':'Deleted');}
+
+async function reAnalyse(i){
+  const zh=CU==='zoe';
+  const all=loadL('posture');
+  const r=all[i];
+  if(!r||!r.photos)return;
+  const workerUrl=gwu();
+  if(!workerUrl){toast(zh?'请先配置 Worker URL':'Please set Worker URL in Settings');return;}
+  const el=document.getElementById('reai-'+i);
+  if(el)el.innerHTML=`<div style="padding:0 13px 12px;font-size:13px;color:var(--blue);display:flex;align-items:center;gap:8px"><div class="dp"><span></span><span></span><span></span></div>${zh?'AI 分析中…':'Analysing…'}</div>`;
+  const am=zh?{front:'正面',side:'侧面',back:'背面'}:{front:'Front',side:'Side',back:'Back'};
+  const ents=Object.entries(r.photos).filter(([,v])=>v);
+  const ic=ents.map(([,b])=>({type:'image',source:{type:'base64',media_type:b.includes('image/png')?'image/png':b.includes('image/webp')?'image/webp':'image/jpeg',data:b.split(',')[1]}}));
+  const angles=ents.map(([a])=>am[a]||a);
+  try{
+    const res=await fetch(`${workerUrl}/ai/analyse`,{method:'POST',headers:{'Content-Type':'application/json','X-Form-Auth':'form2024'},body:JSON.stringify({model:'gemini',max_tokens:1000,messages:[{role:'user',content:[...ic,{type:'text',text:CFG[CU].ai(angles)}]}]})});
+    const data=await res.json();
+    const text=data.content?.find(c=>c.type==='text')?.text||'Analysis failed.';
+    const sm={};const re=/【([^:：]+)[:：](\d)\/5】/g;let m;while((m=re.exec(text))!==null)sm[m[1].trim()]=parseInt(m[2]);
+    all[i].aiText=text;all[i].aiScores=sm;
+    await setData('posture',all);
+    rHI();
+    toast(zh?'✅ 分析完成':'✅ Analysis done');
+  }catch{
+    if(el)el.innerHTML=`<div style="padding:0 13px 12px;font-size:13px;color:var(--red)">${zh?'分析失败，请重试':'Analysis failed, please retry'}</div>`;
+  }
+}
 
 // ══════════════════════════════════════════════════════
 // WEIGHT — JASON ONLY
