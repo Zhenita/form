@@ -207,42 +207,40 @@ const CFG = {
       {id:'sh', name:'🔵 肩膀+驼背',dur:'外旋 / YTW / 靠墙天使 · 12 min'},
       {id:'br', name:'🟢 肋骨+呼吸',dur:'横膈膜呼吸 / 鸟狗式 · 10 min'},
     ],
-    ai(a){return `体态分析指令 — 直接输出，不写任何开场白或免责声明。
+    ai(a){return `你是运动康复 + 骨科体态评估专家（Mayo Clinic / APTA标准）。
+照片角度：${a.join('、')} | 矫正目标：骨盆前倾 · 肩膀内扣 · 驼背 · 肋骨外翻
 
-照片角度：${a.join('、')}
-矫正目标：骨盆前倾 · 肩膀内扣 · 驼背 · 肋骨外翻
-
-严格按以下格式输出，每个标题单独一行，标题后直接写内容：
+❗规则：第一个字必须是📊，不写任何开场白、介绍或免责声明。严格按下方格式输出全部七个板块。
 
 📊 体态评估
-[逐一描述骨盆、肩膀、背部、肋骨的可见特征。说明代偿链条。]
+[描述骨盆、肩膀、背部、肋骨的可见特征，说明代偿链条（如骨盆前倾→腰椎过伸→腘绳肌紧张）]
 严重程度：【骨盆前倾:X/5】【肩膀内扣:X/5】【驼背:X/5】【肋骨外翻:X/5】
 
 🎯 优先重点
-[最需要先处理的1-2个问题及原因，2-3句话。]
+[最需要先处理的1-2个问题及原因，2-3句]
 
 🏋️ 训练建议
-问题1：[问题名]
-- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
-- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
-问题2：[问题名]
-- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
-- [动作名]：[目标肌群]，[组数×次数]，常见错误：[错误]
+骨盆矫正：
+• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
+• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
+肩膀/背部：
+• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
+• [动作名称（英文）]：[目标肌群]，[组数×次数]，避免：[常见错误]
 
 🧘 日常习惯
-- [坐姿建议]
-- [睡姿建议]
-- [行走/站立建议]
+• 坐姿：[具体建议]
+• 睡姿：[具体建议]
+• 站立/行走：[具体建议]
 
 🚫 正在加重的坏习惯
-- [坏习惯1及原因]
-- [坏习惯2及原因]
+• [坏习惯1]：[为什么会加重哪个问题]
+• [坏习惯2]：[为什么会加重哪个问题]
 
 ⚠️ 就医信号
-[出现以下症状应就医：列出2-3条具体症状]
+出现以下情况请就诊骨科或物理治疗师：[列出2-3条具体症状]
 
 💪 鼓励语
-[一句针对本次照片的具体鼓励，不超过30字。]`},
+[针对本次照片的具体正向反馈，不超过25字]`},
   },
   jason:{
     lang:'en', name:'Jason', emoji:'🧘‍♂️',
@@ -256,37 +254,39 @@ const CFG = {
       {id:'sp', name:'🔴 Spinal stretch',       dur:'Side stretch / McKenzie extension · 10 min'},
       {id:'ga', name:'🟡 Gait training',        dur:'Single-leg balance / lunge walk · 5 min'},
     ],
-    ai(a){return `Posture analysis — NO intro sentence, NO preamble. Start directly with the first heading.
+    ai(a){return `You are a musculoskeletal rehabilitation specialist (Mayo Clinic / APTA standards).
+Photos: ${a.join(', ')} | Conditions: Leg length diff · Uneven shoulders · Spinal curvature · Gait asymmetry
 
-Photos: ${a.join(', ')} | Issues: Leg length diff · Uneven shoulders · Spinal curvature · Gait asymmetry
+❗Rule: First character must be 📊. No intro, no preamble, no disclaimers. Output all seven sections in order.
 
 📊 Postural Assessment
-[Findings for pelvis, shoulders, spine, gait symmetry. Compensation chains.]
+[Findings for pelvis, shoulders, spine, gait symmetry. Compensation chains e.g. pelvic obliquity → lumbar shift → hip drop in gait]
 Severity: 【Leg length diff:X/5】【Uneven shoulders:X/5】【Spinal curvature:X/5】【Gait asymmetry:X/5】
 
 🎯 Priority Focus
-[1-2 most critical issues + reason, 2-3 sentences.]
+[1-2 most critical issues and why, 2-3 sentences]
 
 🏋️ Exercise Recommendations
-Issue 1: [name]
-- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
-- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
-Issue 2: [name]
-- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
-- [Exercise name] | Target: [muscles] | [Sets×Reps] | Error to avoid: [error]
+Pelvic/Leg length:
+• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
+• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
+Shoulder symmetry:
+• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
+• [Exercise name]: [Target muscles], [Sets×Reps], Avoid: [common error]
 
-🧘 Daily Habits
-- Sitting: [specific tip]
-- Sleeping: [specific tip]
-- Walking/footwear: [specific tip incl. heel lift if relevant]
+🧘 Daily Habit Adjustments
+• Sitting: [specific tip]
+• Sleeping: [specific tip]
+• Walking/footwear: [specific tip, incl. heel lift if relevant]
 
 🚫 Habits Making It Worse
-- [Habit + why it worsens condition]
-- [Habit + why it worsens condition]
+• [Habit 1]: [why it worsens which condition]
+• [Habit 2]: [why it worsens which condition]
 
-⚠️ Red Flags — See ortho/physio if: [2-3 specific symptoms]
+⚠️ Red Flags — See ortho/physio if:
+[2-3 specific symptoms that warrant in-person evaluation]
 
-💪 [One specific encouraging sentence about positive findings in these photos.]``},
+💪 [One specific encouraging sentence about a positive finding in these photos, max 15 words]`},
   }
 };
 
