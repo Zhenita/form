@@ -30,16 +30,21 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 .ua{47px;margin-bottom:12px}.un{21px;font-weight:600;margin-bottom:5px}.ut{16px;color:var(--muted);line-height:1.7}
 /* ─ APP ─ */
 #app{display:none;flex-direction:column;min-height:100vh}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(245,244,240,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center}
-.brand{font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:.06em;padding:13px 12px 13px 0;border-right:1px solid var(--border);margin-right:2px;flex-shrink:0}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(245,244,240,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 18px;display:flex;align-items:center;height:52px}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;flex:1}
 .brand em{color:var(--orange);font-style:normal}
-.ntabs{display:flex;flex:1;overflow-x:auto;scrollbar-width:none}.ntabs::-webkit-scrollbar{display:none}
-.ntab{padding:14px 12px;font-size:15px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Noto Sans SC',sans-serif;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;margin-bottom:-1px}
-.ntab.on{color:var(--orange);border-bottom-color:var(--orange)}.ntab:hover:not(.on){color:var(--text)}
-.upill{margin-left:auto;padding:5px 12px;border-radius:20px;font-size:15px;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:none;font-family:'Noto Sans SC',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.ntabs{display:none}
+.upill{padding:6px 14px;border-radius:20px;font-size:14px;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:none;font-family:'Noto Sans SC',sans-serif;white-space:nowrap;transition:all .2s}
 .upill:hover{border-color:var(--text);color:var(--text)}
-.cnt{flex:1;padding:20px 14px 80px;max-width:780px;margin:0 auto;width:100%}
+.cnt{flex:1;padding:16px 16px 96px;max-width:780px;margin:0 auto;width:100%}
 .pg{display:none}.pg.on{display:block}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(245,244,240,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.btab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:none;font-family:'Noto Sans SC',sans-serif;transition:all .2s;-webkit-tap-highlight-color:transparent;gap:3px}
+.btab-icon{font-size:22px;line-height:1;transition:transform .2s}
+.btab-lbl{font-size:11px;color:var(--muted);letter-spacing:.02em;transition:color .2s}
+.btab.on .btab-lbl{color:var(--orange);font-weight:700}
+.btab.on .btab-icon{transform:scale(1.1)}
+.btab:active .btab-icon{transform:scale(0.9)}
 /* ─ SHARED ─ */
 .card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:13px}
 .ch{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
@@ -120,7 +125,7 @@ textarea{resize:vertical;min-height:58px}
 .all{12px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:7px}
 .ab{16px;line-height:1.85;color:var(--muted)}.ab strong{color:var(--text);font-weight:600}
 .asc{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.aisc{padding:4px 10px;border-radius:2px;font-size:15px;border:1px solid;font-weight:600}
+.aisc{padding:3px 7px;border-radius:3px;font-size:12px;border:1px solid;font-weight:600;white-space:nowrap;display:inline-block}
 .dp{display:flex;gap:4px;align-items:center}
 .dp span{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:pu 1.2s ease-in-out infinite}
 .dp span:nth-child(2){animation-delay:.2s}.dp span:nth-child(3){animation-delay:.4s}
@@ -130,12 +135,12 @@ textarea{resize:vertical;min-height:58px}
 .ent-body{display:none}.ent-body.open{display:block}
 .ent-toggle{font-size:12px;color:var(--blue);cursor:pointer;padding:0 13px 11px;display:flex;align-items:center;gap:5px;user-select:none}
 .ent-toggle:hover{opacity:.75}
-.eh{padding:11px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.eh{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 .eps{display:flex;gap:6px;padding:10px 13px;overflow-x:auto}
 .ep{width:70px;height:93px;border-radius:3px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;cursor:pointer;position:relative;background:var(--s2)}
 .ep img{width:100%;height:100%;object-fit:cover}
 .eai{padding:0 13px 14px;font-size:15px;line-height:1.85;color:var(--muted);word-break:break-word}.eai strong{color:var(--text);font-weight:600}
-.esc{display:flex;gap:5px;flex-wrap:wrap;padding:0 13px 10px}
+.esc{display:flex;gap:5px;flex-wrap:wrap;padding:8px 15px 10px}
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px}
 .cl{14px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;font-weight:600}
 .cph{display:flex;gap:5px}
@@ -161,6 +166,18 @@ textarea{resize:vertical;min-height:58px}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--text);border:1px solid var(--border);color:var(--bg);padding:9px 18px;border-radius:4px;font-size:16px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;max-width:92vw;text-align:center;font-weight:500}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:400px){.cnt{padding:16px 12px 80px}.tadd{grid-template-columns:1fr 58px 58px auto}.tr{grid-template-columns:58px 46px 52px 40px 28px}}
+
+/* ─ MOBILE ─ */
+@media(max-width:600px){
+  .cnt{padding:14px 14px 100px}
+  .srow{gap:8px}.stat{padding:10px 8px}.sn{font-size:34px}
+  .card{border-radius:10px}.ch{padding:12px 14px}.cb{padding:14px}
+  .cii{padding:12px}.ci-nm{font-size:15px}.ci-dr{font-size:13px}
+  .pgrid{gap:7px}.cal-g,.cal-h{gap:2px}.cc{font-size:13px}
+  .ent{border-radius:10px}.eps{gap:8px;padding:12px 14px}
+  .eai{padding:0 14px 12px;font-size:14px;line-height:1.75}
+  .eh{padding:12px 14px}
+}
 </style>
 </head>
 <body>
@@ -183,9 +200,9 @@ textarea{resize:vertical;min-height:58px}
 <div id="app">
   <div class="topbar">
     <div class="brand">FORM<em>.</em></div>
-    <div class="ntabs" id="ntabs"></div>
     <button class="upill" id="upill" onclick="logout()"></button>
   </div>
+  <div class="bnav" id="bnav"></div>
   <div class="cnt" id="cnt"></div>
 </div>
 
@@ -378,14 +395,16 @@ function boot(u) {
   document.getElementById('app').style.display='flex';
   document.getElementById('upill').textContent=`${CFG[u].emoji} ${CFG[u].name}`;
   const cfg=CFG[u];
-  document.getElementById('ntabs').innerHTML=cfg.tabs.map((t,i)=>`<button class="ntab${i===0?' on':''}" data-t="${t.id}" onclick="showT('${t.id}',this)">${t.lbl}</button>`).join('');
+  const icons={ci:'✅',ph:'📷',hi:'📋',wt:'⚖️',st:'⚙️'};
+  document.getElementById('bnav').innerHTML=cfg.tabs.map((t,i)=>`<button class="btab${i===0?' on':''}" data-t="${t.id}" onclick="showT('${t.id}',this)"><span class="btab-icon">${icons[t.id]||'•'}</span><span class="btab-lbl">${t.lbl}</span></button>`).join('');
   document.getElementById('cnt').innerHTML=cfg.tabs.map((t,i)=>`<div class="pg${i===0?' on':''}" id="pg-${t.id}"></div>`).join('');
   rCI();
 }
 function logout(){CU=null;wChart=null;editMode=false;document.getElementById('app').style.display='none';document.getElementById('us').style.display='flex';}
 function showT(id,btn) {
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.btab').forEach(t=>t.classList.remove('on'));
+  window.scrollTo(0,0);
   document.getElementById('pg-'+id).classList.add('on');
   btn.classList.add('on');
   if(id==='ci')rCI();else if(id==='ph')rPH();else if(id==='hi')rHI();else if(id==='wt')rWT();else if(id==='st')rST();
@@ -681,7 +700,7 @@ async function rHI(){
     const sc=r.aiScores?Object.entries(r.aiScores).map(([k,v])=>`<span class="aisc" style="border-color:${u.ic[k]||'var(--muted)'};color:${u.ic[k]||'var(--muted)'}">${k} ${v}/5</span>`).join(''):'';
     const ai=r.aiText?r.aiText.replace(/【[^】]+】/g,'').trim().replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'):'';
     const bid='ent-'+i;
-    return `<div class="ent"><div class="eh" style="cursor:pointer" onclick="toggleEnt('${bid}')"><div><div style="font-size:14px;font-weight:600">${fd(r.date,zh)} · ${r.week}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${sc||''}</div></div><div style="display:flex;align-items:center;gap:6px"><button class="bsm" style="color:var(--blue);border-color:rgba(74,130,196,.4)" onclick="event.stopPropagation();reAnalyse(${i})">🤖 ${zh?'重新分析':'Re-analyse'}</button><button class="bsm" onclick="event.stopPropagation();delPost(${i})">×</button><span style="font-size:18px;color:var(--muted)" id="arr-${bid}">▸</span></div></div><div class="ent-body${i===0?' open':''}" id="${bid}">${ph?`<div class="eps">${ph}</div>`:''}${ai?`<div class="eai">${ai}</div>`:''}<div id="reai-${i}"></div>${r.note?`<div style="padding:0 13px 13px;font-size:12px;color:var(--muted);font-style:italic">${r.note}</div>`:''}</div></div>`;
+    return `<div class="ent"><div class="eh" style="cursor:pointer" onclick="toggleEnt('${bid}')"><div><div style="font-size:14px;font-weight:600">${fd(r.date,zh)} · ${r.week}</div><div style="font-size:12px;color:var(--muted);margin-top:2px">${sc||''}</div></div><div style="display:flex;align-items:center;gap:6px"><button class="bsm" style="color:var(--blue);border-color:rgba(74,130,196,.4)" onclick="event.stopPropagation();reAnalyse(${i})">🤖</button><button class="bsm" onclick="event.stopPropagation();delPost(${i})">×</button><span style="font-size:18px;color:var(--muted)" id="arr-${bid}">▸</span></div></div><div class="ent-body${i===0?' open':''}" id="${bid}">${ph?`<div class="eps">${ph}</div>`:''}${ai?`<div class="eai">${ai}</div>`:''}<div id="reai-${i}"></div>${r.note?`<div style="padding:0 13px 13px;font-size:12px;color:var(--muted);font-style:italic">${r.note}</div>`:''}</div></div>`;
   }).join('');
   const cll=document.getElementById('cl');
   if(!cis.length){cll.innerHTML=`<div class="empty"><div class="ei">📅</div><p>${zh?'还没有打卡记录':'No check-ins yet'}</p></div>`;}
